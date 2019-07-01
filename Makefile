@@ -12,7 +12,7 @@ format:
 
 .PHONY: build
 build:
-	GO_ENABLED=0 GOARCH=amd64 GOOS=linux go build -o ./metrics main.go
+	go generate && GO_ENABLED=0 GOARCH=amd64 GOOS=linux go build -o ./metrics main.go
 
 .PHONY: clean
 clean:

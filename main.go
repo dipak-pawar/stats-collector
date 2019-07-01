@@ -7,6 +7,8 @@ import (
 	"net/http"
 )
 
+//go:generate go-bindata -pkg db -o db/bindata.go -nocompress db/migrations/
+
 func newRouter() *mux.Router {
 	r := mux.NewRouter()
 
