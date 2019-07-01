@@ -2,6 +2,8 @@ github.com/baijum/pgmigration v0.0.0-20171015182242-b721838087c8 h1:YOEdmIXzHwPj
 github.com/baijum/pgmigration v0.0.0-20171015182242-b721838087c8/go.mod h1:0nofSpZdxh8DOqxB8d4pBCQuXRfYQz3MOa8FH5c2T4M=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/google/jsonapi v0.0.0-20181016150055-d0428f63eb51 h1:k+U8IQj6kj659R+Ahq6YsK03GdUo8qQdTsq5HBzfQwM=
+github.com/google/jsonapi v0.0.0-20181016150055-d0428f63eb51/go.mod h1:XSx4m2SziAqk9DXY9nz659easTq4q6TyrpYd9tHSm0g=
 github.com/gorilla/mux v1.7.3 h1:gnP5JzjVOuiZD07fKKToCAOjS0yOpj/qPETTXCCS6hw=
 github.com/gorilla/mux v1.7.3/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2zaAs=
 github.com/jpillora/backoff v0.0.0-20180909062703-3050d21c67d7 h1:K//n/AqR5HjG3qxbrBCL4vJPW0MVFSs9CPK1OOJdRME=

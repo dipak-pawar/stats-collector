@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"github.com/dipak-pawar/stats-collector/db"
 	"github.com/dipak-pawar/stats-collector/config"
+	"github.com/dipak-pawar/stats-collector/controller"
 )
 
 //go:generate go-bindata -pkg db -o db/bindata.go -nocompress db/migrations/
@@ -29,6 +30,8 @@ func main() {
 	}
 
 	r := newRouter()
+	DB = db.Connect(conf)
+	controller.Register(r, DB)
 
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		log.Fatal("something went wrong", err)
