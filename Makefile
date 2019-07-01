@@ -35,3 +35,7 @@ push-image:
 deploy:
 	kubectl create ns stats || true
 	kubectl apply -f k8s/ -n stats
+
+.PHONY: db
+db:
+	docker run -p 5430:5432 -e POSTGRESQL_ADMIN_PASSWORD=secret -d postgres:11
