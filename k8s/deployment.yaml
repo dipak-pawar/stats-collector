@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stats-collector
+  labels:
+    app: stats-collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stats-collector
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: stats-collector
+    spec:
+      containers:
+      - name: stats-collector
+        image: dipakpawar231/stats-collector:0.1
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /v1/status
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /v1/status
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 0.1m
+            memory: 10Mi
+          limits:
+            cpu: 400m
+            memory: 1.5Gi
+        securityContext: {}
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: stats-collector
+  labels:
+    service: stats-collector
+spec:
+  ports:
+    - name: "8080"
+      nodePort: 31001
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    app: stats-collector
+  type: NodePort

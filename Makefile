@@ -29,3 +29,9 @@ image:
 push-image:
 	docker push dipakpawar231/stats-collector:0.1
 	docker push dipakpawar231/stats-collector:latest
+
+
+.PHONY: deploy
+deploy:
+	kubectl create ns stats || true
+	kubectl apply -f k8s/ -n stats
