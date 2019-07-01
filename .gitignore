@@ -28,6 +28,7 @@
 .idea/
 *.iml
 
+metrics
 
 ### VisualStudioCode ###
 .vscode/*
