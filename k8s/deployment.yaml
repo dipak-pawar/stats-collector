@@ -20,6 +20,42 @@ spec:
       containers:
       - name: stats-collector
         image: dipakpawar231/stats-collector:0.1
+        env:
+        - name: POSTGRESQL_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: metrics-db
+              key: db.admin.password
+        - name: POSTGRESQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: metrics-db
+              key: db.host
+        - name: POSTGRESQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: metrics-db
+              key: db.port
+        - name: POSTGRESQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: metrics-db
+              key: db.user
+        - name: POSTGRESQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: metrics-db
+              key: db.database
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: metrics-db
+              key: db.password
+        - name: POSTGRESQL_SSLMODE
+          valueFrom:
+            secretKeyRef:
+              name: metrics-db
+              key: db.sslmode
         ports:
         - containerPort: 8080
         imagePullPolicy: Always
