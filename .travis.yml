@@ -11,6 +11,9 @@ go:
 git:
   depth: 1
 
+before_install:
+  - go get -u github.com/go-bindata/go-bindata/...
+
 script:
   - "make db"
   - "make build"
