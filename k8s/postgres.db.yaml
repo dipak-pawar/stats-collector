@@ -1,0 +1,98 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    service: metrics-db
+  name: metrics-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: metrics-db
+  template:
+    metadata:
+      labels:
+        service: metrics-db
+    spec:
+      containers:
+      - image: postgres:11
+        env:
+        - name: POSTGRESQL_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: metrics-db
+              key: db.admin.password
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 5432
+          timeoutSeconds: 1
+        name: postgres
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -i
+            - -c
+            - psql -h 127.0.0.1 -U postgres -q -d postgres -c
+              'SELECT 1'
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            memory: 512Mi
+
+          requests:
+            cpu: 0.1m
+            memory: 10Mi
+        securityContext:
+          capabilities: {}
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: metrics-db
+  labels:
+    service: metrics-db
+spec:
+  ports:
+    - name: "5432"
+      nodePort: 31002
+      port: 5432
+      targetPort: 5432
+  selector:
+    service: metrics-db
+  type: NodePort
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: metrics-db
+type: Opaque
+data:
+  db.host: bWV0cmljcy1kYg==
+  db.port: NTQzMg==
+  db.user: cG9zdGdyZXM=
+  db.database: cG9zdGdyZXM=
+  db.password: bXlzZWNyZXRwYXNzd29yZA==
+  db.admin.password: bXlzZWNyZXRwYXNzd29yZA==
+  db.sslmode: ZGlzYWJsZQ==

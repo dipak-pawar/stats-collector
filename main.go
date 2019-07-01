@@ -5,6 +5,8 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"github.com/dipak-pawar/stats-collector/db"
+	"github.com/dipak-pawar/stats-collector/config"
 )
 
 //go:generate go-bindata -pkg db -o db/bindata.go -nocompress db/migrations/
@@ -17,6 +19,15 @@ func newRouter() *mux.Router {
 }
 
 func main() {
+	conf := config.Postgres.String()
+
+	// migrate db
+	DB := db.Connect(conf)
+	db.MigrateDatabase(DB)
+	if err := DB.Close(); err != nil {
+		log.Println("Error closing the database connection:", err)
+	}
+
 	r := newRouter()
 
 	if err := http.ListenAndServe(":8080", r); err != nil {
