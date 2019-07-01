@@ -12,6 +12,7 @@ git:
   depth: 1
 
 before_install:
+  # hack to fix build error https://github.com/golang/go/issues/27215#issuecomment-451342769
   - go get -u github.com/go-bindata/go-bindata
   - go get -u github.com/go-bindata/go-bindata/...
 
